@@ -47,7 +47,7 @@ export async function generateEtymology(name: Name) {
     What is the potential etymology of the following name?
     ${name.base}
 
-    These are made up fantasy names, there's no need to mention that it's not very common. Only say what you can about the possible etymology. Please format your response in markdown.
+    These are made up fantasy names, there's no need to mention that it's not very common. Only say what you can about the possible etymology. Don't mention the author, it's not relevant in this context. Please format your response in markdown.
   `;
 
   return (await getAICompletion(prompt)).trim();

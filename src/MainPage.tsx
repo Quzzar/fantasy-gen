@@ -242,24 +242,31 @@ export default function MainPage() {
           </Text>
         )}
         <Divider my={10} />
-        {[...generatedNames].sort().map((rawName, index) => (
-          <NameDisplay
-            key={index}
-            rawName={rawName}
-            onClickDetails={(name) => {
-              setActiveName(name);
-              openDetails();
-            }}
-            onClickEtymology={(name) => {
-              setActiveName(name);
-              openEtymology();
-            }}
-            onClickBackstory={(name) => {
-              setActiveName(name);
-              openBackstory();
-            }}
-          />
-        ))}
+        {[...generatedNames]
+          .sort((a, b) =>
+            a
+              .replace(/\*/g, "")
+              .trim()
+              .localeCompare(b.replace(/\*/g, "").trim())
+          )
+          .map((rawName, index) => (
+            <NameDisplay
+              key={index}
+              rawName={rawName}
+              onClickDetails={(name) => {
+                setActiveName(name);
+                openDetails();
+              }}
+              onClickEtymology={(name) => {
+                setActiveName(name);
+                openEtymology();
+              }}
+              onClickBackstory={(name) => {
+                setActiveName(name);
+                openBackstory();
+              }}
+            />
+          ))}
       </Modal>
       <Modal
         opened={genHistoryOpened}
@@ -305,24 +312,31 @@ export default function MainPage() {
                   </Text>
                 )}
                 <Box>
-                  {record.names.sort().map((rawName, index) => (
-                    <NameDisplay
-                      key={index}
-                      rawName={rawName}
-                      onClickDetails={(name) => {
-                        setActiveName(name);
-                        openDetails();
-                      }}
-                      onClickEtymology={(name) => {
-                        setActiveName(name);
-                        openEtymology();
-                      }}
-                      onClickBackstory={(name) => {
-                        setActiveName(name);
-                        openBackstory();
-                      }}
-                    />
-                  ))}
+                  {record.names
+                    .sort((a, b) =>
+                      a
+                        .replace(/\*/g, "")
+                        .trim()
+                        .localeCompare(b.replace(/\*/g, "").trim())
+                    )
+                    .map((rawName, index) => (
+                      <NameDisplay
+                        key={index}
+                        rawName={rawName}
+                        onClickDetails={(name) => {
+                          setActiveName(name);
+                          openDetails();
+                        }}
+                        onClickEtymology={(name) => {
+                          setActiveName(name);
+                          openEtymology();
+                        }}
+                        onClickBackstory={(name) => {
+                          setActiveName(name);
+                          openBackstory();
+                        }}
+                      />
+                    ))}
                 </Box>
               </Stack>
             </Box>
@@ -417,9 +431,11 @@ export default function MainPage() {
       >
         <Divider />
         <Text ta="center" py="sm">
-          <Text fz="sm" fs="italic" span>
-            {activeName?.prefix}
-          </Text>
+          {activeName?.prefix && (
+            <Text fz="sm" fs="italic" pr={3} span>
+              {activeName?.prefix}
+            </Text>
+          )}
           <Text fz="xl" span>
             {activeName?.base}
           </Text>

@@ -95,9 +95,11 @@ export default function NameDisplay(props: {
         alt={baseName}
       />
       <Text>
-        <Text fz="xs" fs="italic" span>
-          {prefix}
-        </Text>
+        {prefix && (
+          <Text fz="xs" fs="italic" pr={3} span>
+            {prefix}
+          </Text>
+        )}
         <Text fz="lg" span>
           {baseName}
         </Text>
@@ -109,10 +111,10 @@ export default function NameDisplay(props: {
         <Menu.Target>
           <ActionIcon
             radius="xl"
-            size="sm"
+            size="lg"
             sx={{
               position: "absolute",
-              top: 10,
+              top: 3,
               right: 10,
             }}
             onClick={(e) => {
