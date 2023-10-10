@@ -7,7 +7,12 @@ import {
   Avatar,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconDots, IconInfoCircle, IconLanguage, IconUserScan } from "@tabler/icons-react";
+import {
+  IconDots,
+  IconInfoCircle,
+  IconLanguage,
+  IconUserScan,
+} from "@tabler/icons-react";
 import { getIcon } from "../gen-utils";
 import { Name } from "..";
 import { useDebouncedValue } from "@mantine/hooks";
@@ -28,6 +33,10 @@ export default function NameDisplay(props: {
   let prefix = parts[0].trim();
   let suffix = parts[1].trim();
 
+  if (suffix.startsWith("The ")) {
+    suffix = suffix.replace("The ", "the ");
+  }
+
   if (prefix.length > 0 && !isNaN(parseInt(prefix[0]))) {
     const prefixParts = prefix.split(" ");
     prefix = prefix.replace(prefixParts[0], "").trim();
@@ -39,6 +48,9 @@ export default function NameDisplay(props: {
     suffix = " " + suffix;
   }
   baseName = baseName.replace(/\*/g, "").trim();
+  if (baseName.match(/^\d+\. /)) {
+    baseName = baseName.replace(/^\d+\. /, "");
+  }
 
   const [debouncedBaseName] = useDebouncedValue(baseName, 200);
   const [imgSvg, setImgSvg] = useState("");
