@@ -1,3 +1,3 @@
-# Magic 8 Ball - AI
+# FantasyGen.dev
 
-Ask questions and get answers from AI through the Magic 8 Ball.
+Generate unique fantasy names using AI.
