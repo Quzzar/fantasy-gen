@@ -237,7 +237,7 @@ export default function MainPage() {
       >
         {nameSet && (
           <Text fw={400} fz="sm" c="dimmed">
-            Here a {GEN_AMT} randomly generated {nameSet.title.toLowerCase()}{" "}
+            Here are {GEN_AMT} randomly generated {nameSet.title.toLowerCase()}{" "}
             names.
           </Text>
         )}
