@@ -3,7 +3,6 @@ import {
   UnstyledButton,
   Checkbox,
   Text,
-  Image,
   SimpleGrid,
   createStyles,
   rem,
