@@ -18,12 +18,17 @@ import {
   Tooltip,
   List,
   Avatar,
+  Group,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useDisclosure, useElementSize } from "@mantine/hooks";
 import { ImageCheckboxes } from "./name-set/NameSetSelector";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { generatedNamesState, selectNameSetState } from "./atoms/selectAtoms";
+import {
+  generatedNamesState,
+  loadingState,
+  selectNameSetState,
+} from "./atoms/selectAtoms";
 import options from "./name-set/options";
 import BlurBox from "./BlurBox";
 import Logo from "./Logo";
@@ -54,7 +59,7 @@ export default function MainPage() {
   const [generatedNames, setGeneratedNames] =
     useRecoilState(generatedNamesState);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [genListOpened, { open: openGenList, close: closeGenList }] =
     useDisclosure(false);
   const [genHistoryOpened, { open: openHistoryList, close: closeHistoryList }] =
@@ -98,7 +103,6 @@ export default function MainPage() {
     );
     if (!nameSet) return;
     setBackstory("");
-    console.log(nameSet);
 
     generateBackstory(activeName, nameSet).then((backstory) => {
       setBackstory(backstory);
@@ -177,9 +181,10 @@ export default function MainPage() {
                 },
               })}
               value={additionalInstructions}
-              onChange={(event) =>
-                setAdditionalInstructions(event.currentTarget.value)
-              }
+              onChange={(event) => {
+                if (loading) return;
+                setAdditionalInstructions(event.currentTarget.value);
+              }}
             />
           </BlurBox>
           <Center mt="md">
@@ -424,66 +429,71 @@ export default function MainPage() {
             paddingBottom: "2px!important",
           },
           body: {
-            minHeight: 300,
+            minHeight: 200,
             maxHeight: 500,
           },
         }}
       >
         <Divider />
-        <Text ta="center" py="sm">
-          {activeName?.prefix && (
-            <Text fz="sm" fs="italic" pr={3} span>
-              {activeName?.prefix}
-            </Text>
-          )}
-          <Text fz="xl" span>
-            {activeName?.base}
-          </Text>
-          <Text fz="sm" fs="italic" span>
-            {activeName?.suffix}
-          </Text>
-        </Text>
-        <Center>
+        <Group spacing={5} align="flex-start" noWrap>
           <Avatar
+            m="sm"
             radius={100}
             size={100}
             src={`data:image/svg+xml;utf8,${encodeURIComponent(imgSvg)}`}
             alt={activeName?.base}
           />
-        </Center>
-        <List pt={20} pl={"25%"}>
-          <List.Item fz="sm">
-            From{" "}
-            <Text fw={600} span>
-              {
-                getHistory().find((record) =>
-                  record.names.find((name) =>
-                    name.includes(activeName?.base ?? "")
-                  )
-                )?.nameSet
-              }
-            </Text>{" "}
-            name set
-          </List.Item>
-          {getHistory().find((record) =>
-            record.names.find((name) => name.includes(activeName?.base ?? ""))
-          )?.additionalInstructions && (
-            <List.Item fz="sm">Added Instructions:</List.Item>
-          )}
-        </List>
-        {getHistory().find((record) =>
-          record.names.find((name) => name.includes(activeName?.base ?? ""))
-        )?.additionalInstructions && (
-          <Text ta="center" fz="xs" fs="italic" px={40}>
-            {
-              getHistory().find((record) =>
+          <Box>
+            <Text pt={10} pb={5}>
+              {activeName?.prefix && (
+                <Text fz="sm" fs="italic" pr={3} span>
+                  {activeName?.prefix}
+                </Text>
+              )}
+              <Text fz="xl" span>
+                {activeName?.base}
+              </Text>
+              <Text fz="sm" fs="italic" span>
+                {activeName?.suffix}
+              </Text>
+            </Text>
+            <List pl={5}>
+              <List.Item fz="xs">
+                From{" "}
+                <Text span>
+                  {
+                    getHistory().find((record) =>
+                      record.names.find((name) =>
+                        name.includes(activeName?.base ?? "")
+                      )
+                    )?.nameSet
+                  }
+                </Text>{" "}
+                name set
+              </List.Item>
+              {getHistory().find((record) =>
                 record.names.find((name) =>
                   name.includes(activeName?.base ?? "")
                 )
-              )?.additionalInstructions
-            }
-          </Text>
-        )}
+              )?.additionalInstructions && (
+                <List.Item fz="xs">Added Instructions:</List.Item>
+              )}
+            </List>
+            {getHistory().find((record) =>
+              record.names.find((name) => name.includes(activeName?.base ?? ""))
+            )?.additionalInstructions && (
+              <Text fz={11} fs="italic" c={theme.colors.gray[7]} pl={25}>
+                {
+                  getHistory().find((record) =>
+                    record.names.find((name) =>
+                      name.includes(activeName?.base ?? "")
+                    )
+                  )?.additionalInstructions
+                }
+              </Text>
+            )}
+          </Box>
+        </Group>
       </Modal>
     </>
   );

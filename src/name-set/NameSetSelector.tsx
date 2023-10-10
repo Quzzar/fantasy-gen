@@ -11,8 +11,8 @@ import {
 } from "@mantine/core";
 import options from "./options";
 import { IconDots } from "@tabler/icons-react";
-import { useRecoilState } from "recoil";
-import { selectNameSetState } from "../atoms/selectAtoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loadingState, selectNameSetState } from "../atoms/selectAtoms";
 import { valueToColor } from "../gen-utils";
 
 const useStyles = createStyles((theme, { checked }: { checked: boolean }) => ({
@@ -72,8 +72,9 @@ export function ImageCheckbox({
 }: ImageCheckboxProps &
   Omit<React.ComponentPropsWithoutRef<"button">, keyof ImageCheckboxProps>) {
 
-    const [selectNameSet, setSelectNameSet] =
+  const [selectNameSet, setSelectNameSet] =
         useRecoilState(selectNameSetState);
+  const loading = useRecoilValue(loadingState);
 
   const { classes, theme, cx } = useStyles({ checked: selectNameSet === title });
 
@@ -81,6 +82,7 @@ export function ImageCheckbox({
     <UnstyledButton
       {...others}
       onClick={() => {
+        if (loading) return;
         if (selectNameSet === title) {
           setSelectNameSet(null);
         } else {

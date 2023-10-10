@@ -5,9 +5,14 @@ const selectNameSetState = atom({
   default: null as string | null,
 });
 
+const loadingState = atom({
+  key: "loading-state",
+  default: false,
+});
+
 const generatedNamesState = atom({
   key: "generated-names",
   default: [] as string[],
 });
 
-export { selectNameSetState, generatedNamesState };
+export { selectNameSetState, generatedNamesState, loadingState };
