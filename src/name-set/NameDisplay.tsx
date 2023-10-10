@@ -28,8 +28,9 @@ export default function NameDisplay(props: {
   let prefix = parts[0].trim();
   let suffix = parts[1].trim();
 
-  if (prefix.length <= 4) {
-    prefix = "";
+  if (prefix.length > 0 && !isNaN(parseInt(prefix[0]))) {
+    const prefixParts = prefix.split(" ");
+    prefix = prefix.replace(prefixParts[0], "").trim();
   }
   if (!prefix) {
     suffix = ", " + suffix;
