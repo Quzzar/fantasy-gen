@@ -13,7 +13,7 @@ FantasyGen.dev is a web-based application harnessing the power of generative AI 
 - **Diverse Categories**: Choose from different categories to influence the style and theme of the generated names.
 - **High Success Rate**: Approximately 80% of the generated names are of high quality and fitting for use.
 - **Generation History**: Keep track of all previously generated names along with their creation dates.
-- **Visual Representation**: Each name is paired with a unique, AI-generated image to bring it to life.
+- **Visual Representation**: Each name is paired with a unique image to bring it to life.
 - **Detailed Name Information**:
   - **Titles**: Automatically generates fitting titles for each name.
   - **Backstories**: Option to generate a backstory for each name, enhancing the character's depth.
